@@ -30,9 +30,8 @@ volumes: [
         
     
         sh """
-        mkdir ~/.npm-global
-        npm config set prefix '~/.npm-global'
-        export PATH=~/.npm-global/bin:$PATH
+        npm config set user 0
+        npm config set unsafe-perm true
         npm install
         npm run build
         """
