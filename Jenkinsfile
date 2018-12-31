@@ -44,10 +44,8 @@ volumes: [
     }
 
     stage('Create Docker image') {
-     
-     withDockerRegistry(credentialsId: 'd9b9f23c-5860-434c-a690-90d4ecaa1cb3', url: 'https://index.docker.io/v1/') {
-
       container('docker') {
+         withDockerRegistry(credentialsId: 'd9b9f23c-5860-434c-a690-90d4ecaa1cb3', url: 'https://index.docker.io/v1/') {
         
           sh """
             docker build -t ${DOCKER_HUB_USER}/${APP_NAME}:1.${env.BUILD_NUMBER} .
