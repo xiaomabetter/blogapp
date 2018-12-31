@@ -45,13 +45,13 @@ volumes: [
 
     stage('Create Docker image') {
       container('docker') {
-         {
+        
           sh """
             docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
             docker build -t ${DOCKER_HUB_USER}/${APP_NAME}:1.${BUILD_NUMBER} .
             docker push ${DOCKER_HUB_USER}/${APP_NAME}:1.${BUILD_NUMBER}
             """
-        }
+        
       }
     }
 
