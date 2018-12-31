@@ -10,7 +10,7 @@ podTemplate(label: label, containers: [
   containerTemplate(name: 'hugo', image: 'lockdown90/hugo:1.0', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.11.0', command: 'cat', ttyEnabled: true)
 ],
-serviceAccount: 'default',
+serviceAccount: 'jenkins',
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
@@ -61,7 +61,6 @@ volumes: [
       container('helm') {
 
         sh "helm init --client-only"
-        sh "kubectl get nodes"
         sh "helm upgrade --install ${APP_NAME} --wait --timeout 20 --set image.repository=${DOCKER_HUB_USER}/${APP_NAME} --set image.tag=1.${env.BUILD_NUMBER} chart/blogapp --namespace ${NAMESPACE}"   
         
       }
