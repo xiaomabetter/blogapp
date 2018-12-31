@@ -28,9 +28,14 @@ volumes: [
       dir("themes/bootstrap4-blog") {
       container('nodejs') {
         
+    
         sh """
+        mkdir ~/.npm-global
+        npm config set prefix '~/.npm-global'
+        echo "export PATH=~/.npm-global/bin:$PATH" >> ~/.profile
+        source ~/.profile
         npm install
-        npm run-script build
+        npm run build
         """
 
 
