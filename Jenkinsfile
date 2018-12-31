@@ -10,7 +10,7 @@ podTemplate(label: label, containers: [
   containerTemplate(name: 'hugo', image: 'lockdown90/hugo:1.0', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.11.0', command: 'cat', ttyEnabled: true)
 ],
-serviceAccount: 'jenkins',
+//serviceAccount: 'jenkins',
 volumes: [
   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ]) {
