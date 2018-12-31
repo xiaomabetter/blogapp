@@ -5,7 +5,7 @@ def label = "worker-${UUID.randomUUID().toString()}"
 
 podTemplate(label: label, containers: [
 
-  containerTemplate(name: 'nodejs', image: 'node', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'nodejs', image: 'node:8', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'hugo', image: 'lockdown90/hugo:1.0', command: 'cat', ttyEnabled: true),
   containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:v2.11.0', command: 'cat', ttyEnabled: true)
@@ -30,9 +30,7 @@ volumes: [
         
     
         sh """
-        npm config set user 0
-        npm config set unsafe-perm true
-        npm install -g --unsafe-perm
+        npm install
         npm run build
         """
 
