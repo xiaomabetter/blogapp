@@ -1,0 +1,44 @@
+
+replicaCount: 2
+
+image:
+  repository: lockdown90/blogapp
+  tag: 1.0
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    ingress.kubernetes.io/secure-backends: "true"
+  
+  path: /
+  hosts:
+    - blog.nginx-ingress.k8s.athenelabs.net
+  tls:
+    - secretName: blog.nginx-ingress.k8s.athenelabs.net
+      hosts:
+        - blog.nginx-ingress.k8s.athenelabs.net
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

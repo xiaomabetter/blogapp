@@ -1,0 +1,4 @@
+baseurl = "/"
+languageCode = "en-us"
+title = "My Hugo Blog"
+theme = "bootstrap4-blog"
