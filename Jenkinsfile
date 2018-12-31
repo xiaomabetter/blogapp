@@ -28,8 +28,8 @@ volumes: [
       container('nodejs') {
         
         sh """
-        npm install"
-        npm build"
+        npm install
+        npm build
         """
 
 
