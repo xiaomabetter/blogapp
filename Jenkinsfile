@@ -58,10 +58,10 @@ volumes: [
  
     stage('Deploy to Staging') {
       container('helm') {
-        sh """"
-           helm init --client-only
-           helm upgrade --install ${APP_NAME} --wait --timeout 20 --set image.repository=${DOCKER_HUB_USER}/${APP_NAME} --set image.tag=1.${env.BUILD_NUMBER} chart/blogapp --namespace ${NAMESPACE}
-        """
+        
+        sh "helm init --client-only"
+        sh "helm upgrade --install ${APP_NAME} --wait --timeout 20 --set image.repository=${DOCKER_HUB_USER}/${APP_NAME} --set image.tag=1.${env.BUILD_NUMBER} chart/blogapp --namespace ${NAMESPACE}"   
+        
       }
     }
      
