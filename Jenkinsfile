@@ -44,22 +44,25 @@ volumes: [
     }
 
     stage('Create Docker image') {
+     
+     withDockerRegistry(credentialsId: 'd9b9f23c-5860-434c-a690-90d4ecaa1cb3', url: 'https://index.docker.io/v1/') {
+
       container('docker') {
         
           sh """
-            docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-            docker build -t ${DOCKER_HUB_USER}/${APP_NAME}:1.${BUILD_NUMBER} .
-            docker push ${DOCKER_HUB_USER}/${APP_NAME}:1.${BUILD_NUMBER}
+            docker build -t ${DOCKER_HUB_USER}/${APP_NAME}:1.${env.BUILD_NUMBER} .
+            docker push ${DOCKER_HUB_USER}/${APP_NAME}:1.${env.BUILD_NUMBER}
             """
-        
+      
+      }
       }
     }
-
+ 
     stage('Deploy to Staging') {
       container('helm') {
         sh """"
            helm init --client-only
-           helm upgrade --install ${APP_NAME} --wait --timeout 20 --set image.repository=${DOCKER_HUB_USER}/${APP_NAME} --set image.tag=1.${BUILD_NUMBER} chart/blogapp --namespace ${NAMESPACE}
+           helm upgrade --install ${APP_NAME} --wait --timeout 20 --set image.repository=${DOCKER_HUB_USER}/${APP_NAME} --set image.tag=1.${env.BUILD_NUMBER} chart/blogapp --namespace ${NAMESPACE}
         """
       }
     }
