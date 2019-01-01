@@ -30,7 +30,8 @@ volumes: [
         
     
         sh """
-        npm install --unsafe-perm
+        npm install
+        yarn add node-sass
         npm run build
         """
 
