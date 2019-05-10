@@ -45,29 +45,5 @@ volumes: [
         sh "hugo"
       }
     }
-
-    stage('Create Docker image') {
-      container('docker') {
-         withDockerRegistry(credentialsId: 'e8954388-7ec8-4a0a-abcc-dc555aff7264', url: 'https://index.docker.io/v1/') {
-        
-          sh """
-            docker build -t ${DOCKER_HUB_USER}/${APP_NAME}:1.${env.BUILD_NUMBER} .
-            docker push ${DOCKER_HUB_USER}/${APP_NAME}:1.${env.BUILD_NUMBER}
-            """
-      
-      }
-      }
-    }
- 
-    stage('Deploy to Staging') {
-      container('helm') {
-
-        sh "helm init --client-only"
-        sh "helm upgrade --install ${APP_NAME} --wait --timeout 20 --set image.repository=${DOCKER_HUB_USER}/${APP_NAME} --set image.tag=1.${env.BUILD_NUMBER} chart/blogapp --namespace ${NAMESPACE}"   
-        
-      }
-    }
-     
-
   }
   }}
